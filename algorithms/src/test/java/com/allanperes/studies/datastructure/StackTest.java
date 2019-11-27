@@ -24,6 +24,15 @@ class StackTest {
     }
 
     @Test
+    void should_PopLastInsertedItem_when_InsertElements() {
+        Stack stack = new Stack(2);
+        stack.push(4);
+        stack.push(3);
+        int expected = 3;
+        assertEquals(expected, stack.pop());
+    }
+
+    @Test
     void should_ThrowException_when_TryToPopEmptyStack() {
         Stack stack = new Stack(1);
         assertThrows(RuntimeException.class, stack::pop, "Stack is empty");
