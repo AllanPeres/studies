@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/studies/algorithms
+    working_directory: ~/studies
     docker:
       - image: circleci/openjdk:13.0.1-jdk-buster-node
     steps:
@@ -15,6 +15,6 @@ jobs:
           key: algorithms-{{ checksum "pom.xml" }}
       - run: mvn package
       - store_test_results:
-          path: target/surefire-reports
+          path: algorithms/target/surefire-reports
       - store_artifacts:
-          path: target/algorithms.jar
+          path: algorithms/target/algorithms.jar
