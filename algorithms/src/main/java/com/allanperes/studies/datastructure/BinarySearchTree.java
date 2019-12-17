@@ -9,50 +9,18 @@ public class BinarySearchTree {
     private Node root = null;
 
     public boolean find(int id) {
-        Node current = root;
-        while (current != null) {
-            if (current.data == id) {
-                return true;
-            } else if (current.data > id) {
-                current = current.left;
-            } else {
-                current = current.right;
-            }
-        }
-        return false;
-    }
-
-    public void insert(int id) {
-        Node newNode = new Node(id);
-        if (Objects.isNull(root)) {
-            root = newNode;
-            return;
-        }
-        Node current = root;
-        Node parent = null;
-        while (true) {
-            parent = current;
-            if (id < current.data) {
-                current = current.left;
-                if (current == null) {
-                    parent.left = newNode;
-                    return;
-                }
-            } else {
-                current = current.right;
-                if (current == null) {
-                    parent.right = newNode;
-                    return;
-                }
-            }
+        if (Objects.isNull(this.root)) {
+            return false;
+        } else {
+            return search(id, root);
         }
     }
 
-    public void iterate(Node current, List<Integer> results) {
-        if (current != null) {
-            iterate(current.left, results);
-            results.add(current.data);
-            iterate(current.right, results);
+    public void insert(int data) {
+        if (!Objects.isNull(this.root)) {
+            insert(root, data);
+        } else {
+            this.root = new Node(data);
         }
     }
 
@@ -124,6 +92,55 @@ public class BinarySearchTree {
         return true;
     }
 
+    public void iterate(Node current, List<Integer> results) {
+        if (current != null) {
+            iterate(current.left, results);
+            results.add(current.data);
+            iterate(current.right, results);
+        }
+    }
+
+    public boolean isBalanced(Node node) {
+        int leftHeight, rightHeight;
+
+        if (node == null) {
+            return true;
+        }
+
+        leftHeight = height(node.left);
+        rightHeight = height(node.right);
+        return (Math.abs(leftHeight - rightHeight) <= 1) && isBalanced(node.left) && isBalanced(node.right);
+    }
+
+    private boolean search(int id, Node currentNode) {
+        if (Objects.isNull(currentNode)) {
+            return false;
+        }
+
+        if (id == currentNode.data) {
+            return true;
+        } else if (id < currentNode.data) {
+            return search(id, currentNode.left);
+        }
+        return search(id, currentNode.right);
+    }
+
+    private void insert(Node currentNode, int data) {
+        if (data < currentNode.data) {
+            if (currentNode.left != null) {
+                insert(currentNode.left, data);
+            } else {
+                currentNode.left = new Node(data);
+            }
+        } else if (data > currentNode.data) {
+            if (currentNode.right != null) {
+                insert(currentNode.right, data);
+            } else {
+                currentNode.right = new Node(data);
+            }
+        }
+    }
+
     private Node getSuccessor(Node deleteNode) {
         Node successor = null;
         Node successorParent = null;
@@ -138,6 +155,11 @@ public class BinarySearchTree {
             successor.right = deleteNode.right;
         }
         return successor;
+    }
+
+    private int height(Node node) {
+        if (node == null) return 0;
+        return 1 + Math.max(height(node.left), height(node.right));
     }
 
     class Node {
