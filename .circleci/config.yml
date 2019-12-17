@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/algorithms
+    working_directory: ~/studies/algorithms
     docker:
       - image: circleci/openjdk:13.0.1-jdk-buster-node
     steps:
