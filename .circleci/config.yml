@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/algorithms
     docker:
-      - image: circleci/openjdk-11
+      - image: circleci/openjdk:13.0.1-jdk-buster-node
     steps:
       - checkout
       - restore_cache:
